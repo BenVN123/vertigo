@@ -1,4 +1,4 @@
-# Vertigo Sheet Manager
+# Vertigo
 
 Vertigo is an application used to schedule [@code4tomorrow](https://github.com/code4tomorrow) classes.
 
