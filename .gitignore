@@ -1,0 +1,18 @@
+# Ignore pycache directories and files
+__pycache__/
+*.pyc
+
+# Ignore log files generated at runtime
+*.log
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore files containing sensitive info
+.env
+
+# Stopped ignoring token.pickle so that it hopefully works on ec2 instance
+# token.pickle
+
+# ignore venv
+venv/
