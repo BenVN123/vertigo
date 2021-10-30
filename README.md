@@ -2,7 +2,7 @@
 
 Vertigo is an application used to schedule [@code4tomorrow](https://github.com/code4tomorrow) classes.
 
-It is deployed using [AWS](https://aws.amazon.com/).
+It uses the [Google Sheets API](https://developers.google.com/sheets/api/) and is deployed using [AWS](https://aws.amazon.com/).
 
 ## Documentation
 
