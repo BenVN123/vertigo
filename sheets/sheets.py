@@ -3,7 +3,7 @@ import pickle
 from dotenv import load_dotenv
 from sheets._class import Class
 from sheets.emails import Emails
-from sheets.people import Parent, Student, Teacher, Member, Ambassador
+from sheets.people import Parent, Student, Teacher
 from cft.cft import StudTeachSheet, StudResponses, Email, Codes, TeacherData
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -1316,90 +1316,3 @@ class ClassRosterSheet(Sheet):
                 classes[code].students.append(roster.get_column(1)[i])
 
         return classes
-
-
-class MemberSheet(Sheet):
-    def __init__(self, id: str, name: str, scopes: list, path_to_credentials: str):
-        """
-        Initializes a MemberSheet object
-        Args:
-            id (str): the long alphanumerical found in the Google Sheets URL
-                in between 'docs.google.com/spreadsheets/d/' and '/edit...'
-            name (str): the name of the sheet (the little tabs at the bottom)
-                inside your spreadsheet you want to access. For example, if you have
-                an 'Email' and a 'Parent' subsheet inside your sheet, you need to
-                specify which one you want to access. Ex: 'Email'
-            scopes (list): a list of a link to the authorization that you want to
-                give this SheetAccessor. You can find all scopes at
-                https://developers.google.com/identity/protocols/oauth2/scopes.
-                If you just want it to be able to read, use
-                https://www.googleapis.com/auth/spreadsheets.readonly.
-            path_to_credentials (str): the relative path towards the credentials.json
-                file
-        """
-        super().__init__(id, name, scopes, path_to_credentials)
-
-        self.members = self.get_members()
-
-    def get_members(self):
-        members = {}
-
-        for i in range(1, len(self.get_column(0))):
-            row = self.get_row(i)
-
-            if len(row) < 7:
-                continue
-
-            memb_info = [
-                row[1],
-                row[2],
-                row[3],
-                row[4],
-                row[5].split(","),
-                row[6].split(","),
-            ]
-
-            member = Member(*memb_info)
-            member.id = row[0]
-            members[member.id] = member
-
-        return members
-
-
-class AmbassadorSheet(Sheet):
-    def __init__(self, id: str, name: str, scopes: list, path_to_credentials: str):
-        """
-        Initializes a AmbassSheet object
-        Args:
-            id (str): the long alphanumerical found in the Google Sheets URL
-                in between 'docs.google.com/spreadsheets/d/' and '/edit...'
-            name (str): the name of the sheet (the little tabs at the bottom)
-                inside your spreadsheet you want to access. For example, if you have
-                an 'Email' and a 'Parent' subsheet inside your sheet, you need to
-                specify which one you want to access. Ex: 'Email'
-            scopes (list): a list of a link to the authorization that you want to
-                give this SheetAccessor. You can find all scopes at
-                https://developers.google.com/identity/protocols/oauth2/scopes.
-                If you just want it to be able to read, use
-                https://www.googleapis.com/auth/spreadsheets.readonly.
-            path_to_credentials (str): the relative path towards the credentials.json
-                file
-        """
-        super().__init__(id, name, scopes, path_to_credentials)
-
-        self.ambassadors = self.get_ambassadors()
-
-    def get_ambassadors(self):
-        ambassadors = {}
-
-        for i in range(1, len(self.get_column(0))):
-            row = self.get_row(i)
-
-            if len(row) < 5:
-                continue
-
-            ambassador = Ambassador(row[1], row[2], row[3], row[4])
-            ambassador.id = row[0]
-            ambassadors[ambassador.id] = ambassador
-
-        return ambassadors
